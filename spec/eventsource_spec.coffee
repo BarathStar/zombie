@@ -1,48 +1,48 @@
 { Vows, assert, brains, Browser } = require("./helpers")
-WebSocket = require("ws")
+SSE = require("sse")
 
-Vows.describe("WebSockets").addBatch
+Vows.describe("EventSource").addBatch
 
   "":
     topic: ->
-      ws_server = new WebSocket.Server(server: brains)
-      ws_server.on "connection", (client)->
+      sse_server = new SSE(brains)
+      sse_server.on "connection", (client)->
         client.send "Hello"
 
     "creating":
       topic: ->
-        brains.get "/websockets/creating", (req, res)->
+        brains.get "/sse/creating", (req, res)->
           res.send """
           <html>
             <head>
               <script src="/jquery.js"></script>
             </head>
             <body>
-              <span id="ws-url"></span>
+              <span id="es-url"></span>
             </body>
             <script>
               $(function() {
-                ws = new WebSocket('ws://localhost:3003');
-                $('#ws-url').text(ws.url);
+                es = new EventSource('http://localhost:3003');
+                $('#es-url').text(es.url);
               });
             </script>
           </html>
           """
         browser = new Browser
-        browser.wants "http://localhost:3003/websockets/creating", @callback
+        browser.wants "http://localhost:3003/sse/creating", @callback
       "should be possible": (browser)->
-        assert.equal browser.text("#ws-url"), "ws://localhost:3003"
+        assert.equal browser.text("#es-url"), "http://localhost:3003"
 
     "connecting":
       topic: ->
-        brains.get "/websockets/connecting", (req, res)->
+        brains.get "/sse/connecting", (req, res)->
           res.send """
           <html>
             <head></head>
             <body></body>
             <script>
-              ws = new WebSocket('ws://localhost:3003');
-              ws.onopen = function() {
+              es = new EventSource('http://localhost:3003');
+              es.onopen = function() {
                 alert('open');
               };
             </script>
@@ -52,20 +52,20 @@ Vows.describe("WebSockets").addBatch
         browser = new Browser()
         browser.onalert (message)->
           done null, browser
-        browser.wants "http://localhost:3003/websockets/connecting"
+        browser.wants "http://localhost:3003/sse/connecting"
       "should raise an event": (browser)->
         assert.ok browser.prompted("open")
 
     "message":
       topic: ->
-        brains.get "/websockets/message", (req, res)->
+        brains.get "/sse/message", (req, res)->
           res.send """
           <html>
             <head></head>
             <body></body>
             <script>
-              ws = new WebSocket('ws://localhost:3003');
-              ws.onmessage = function(message) {
+              es = new EventSource('http://localhost:3003');
+              es.onmessage = function(message) {
                 alert(message.data);
               };
             </script>
@@ -81,17 +81,17 @@ Vows.describe("WebSockets").addBatch
 
     "closing":
       topic: ->
-        brains.get "/websockets/closing", (req, res)->
+        brains.get "/sse/closing", (req, res)->
           res.send """
           <html>
             <head></head>
             <body></body>
             <script>
-              ws = new WebSocket('ws://localhost:3003');
-              ws.onclose = function() {
+              es = new WebSocket('http://localhost:3003');
+              es.onclose = function() {
                 alert('close');
               };
-              ws.close();
+              es.close();
             </script>
           </html>
           """

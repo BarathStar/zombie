@@ -16,6 +16,7 @@ Storages          = require("./storage")
 URL               = require("url")
 XHR               = require("./xhr")
 WebSocket         = require("./websocket")
+EventSource       = require("./eventsource")
 
 
 HTML = JSDom.dom.level3.html
@@ -39,6 +40,7 @@ class Browser extends EventEmitter
     @_interact = Interact.use(this)
     @_xhr = XHR.use(@_cache)
     @_ws = WebSocket.use(this)
+    @_es = EventSource.use(this)
     @resources = new Resources(this)
 
     # Make sure we don't blow up Node when we get a JS error, but dump error to console.  Also, catch any errors
@@ -177,6 +179,7 @@ class Browser extends EventEmitter
     @_interact.extend newWindow
     @_xhr.extend newWindow
     @_ws.extend newWindow
+    @_es.extend newWindow
     newWindow.screen = new Screen()
     newWindow.JSON = JSON
     newWindow.Image = (width, height)->
