@@ -3,5 +3,4 @@
 .eslintrc
 .travis.yml
 npm-debug.log
-Gulpfile
 test
