@@ -1,6 +1,4 @@
-.babelrc
 .changes
-.eslintrc
 .travis.yml
 npm-debug.log
 test
