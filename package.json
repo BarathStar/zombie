@@ -35,7 +35,7 @@
   ],
   "main": "lib",
   "scripts": {
-    "postinstall": "echo PATH && echo $PATH && ls -al /Users/aslakhellesoy/git/cucumber/cucumber-pro/node_modules/.bin && gulp build",
+    "postinstall": "gulp build",
     "test": "gulp lint && mocha",
     "prepublish": "npm test && gulp build",
     "postpublish": "git push"
