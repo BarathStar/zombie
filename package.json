@@ -35,7 +35,7 @@
   ],
   "main": "lib",
   "scripts": {
-    "postinstall": "echo PATH && echo $PATH && gulp build",
+    "postinstall": "echo PATH && echo $PATH && ls -al /Users/aslakhellesoy/git/cucumber/cucumber-pro/node_modules/.bin && gulp build",
     "test": "gulp lint && mocha",
     "prepublish": "npm test && gulp build",
     "postpublish": "git push"
@@ -64,7 +64,6 @@
     "express": "^4.13.3",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.3.0",
-    "gulp-cli": "^1.1.0",
     "gulp-eslint": "^1.0.0",
     "gulp-exec": "^2.1.2",
     "gulp-notify": "^2.0.1",
