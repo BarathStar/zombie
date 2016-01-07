@@ -35,7 +35,7 @@
   ],
   "main": "lib",
   "scripts": {
-    "postinstall": "echo PATH && echo $PATH && ls -al /Users/aslakhellesoy/git/gulp-bug-1477/node_modules/zombie/node_modules/.bin&& ls -al /Users/aslakhellesoy/git/gulp-bug-1477/node_modules/.bin && gulp build",
+    "postinstall": "echo PATH && echo $PATH && ls -al /Users/aslakhellesoy/git/gulp-bug-1477/node_modules/.bin && gulp build",
     "test": "gulp lint && mocha",
     "prepublish": "npm test && gulp build",
     "postpublish": "git push"
